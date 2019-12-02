@@ -1,5 +1,5 @@
-#ifndef CARTA_H
-#define CARTA_H
+#ifndef JUGADORES_H
+#define JUGADORES_H
 #define MJ 5
 #define TRUE 1
 #define FALSE 0 
@@ -10,8 +10,7 @@ typedef struct
    tjugador lista_jug[MJ];
 }tjugadores;
 
-
-void inicializar_jugadores(tjugadores *lj);//inicializar jugadores
+void inicializar_jugadores(tjugadores *lj);
 void estado_jugadores(tjugadores lj);//imprime estado jugadores
 
 
