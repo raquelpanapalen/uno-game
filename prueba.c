@@ -1,21 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "carta.h"
 #include "cartas.h"
+#include "jugador.h"
+#include "jugadores.h"
+#include "partida.h"
+#include "preguntas.h"
 #include "colores.h"
 
 int main()
 {
-	int i,j;
-	tcartas b;
-	inicializar_cartas(&b);
-	for (i=0; i<b.nc; i++)
-	{
-		printf("|");
-		mostrar_carta(b.cartas[i]); 
-  	if ((i+1)%12 == 0)
-  		printf("|\n");
-  }
-  printf("\n");
+	tpartida p;
+	inicializar_partida(&p);
+	
 }
 
 	

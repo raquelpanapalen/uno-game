@@ -12,7 +12,8 @@ typedef struct
 
 void inicializar_cartas(tcartas *lc); //inicializa las 108 cartas en lc (sin barajar random)
 void mezclar_cartas(tcartas *lc);//mezcla cartas lc
-/*void mostrar_cartas(tcartas lc,int conf); //mostrar un mano lc si conf = TRUE o mostrar |UNO| si conf = FALSE
+void mostrar_cartas(tcartas lc,int conf); //mostrar un mano lc si conf = TRUE o mostrar |UNO| si conf = FALSE
+/*
 int buscar_carta(tcarta c, tcartas lc);//return posicion de c en lc
 void eliminar_cartas(int pos, tcartas *lc);//elimina carta de lc en posicion pos
 int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)

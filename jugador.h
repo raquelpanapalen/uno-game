@@ -12,7 +12,7 @@ typedef struct
 
 
 tcarta seleccionar_jugada();//elegir opcion desde teclado y return tcarta escojida
-void apodar_jugador(tjugador *nj);//definir el nombre del jugador
+void apodar_jugador(tjugador *j);//definir el nombre del jugador
 void estado_jugador(tjugador j);//imprime estado jugador j
 
 #endif

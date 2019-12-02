@@ -1,5 +1,5 @@
-#ifndef CARTA_H
-#define CARTA_H
+#ifndef PARTIDA_H
+#define PARTIDA_H
 #define HORARIO 0
 #define ANTIHORARIO 1
 #define TRUE 1
@@ -8,7 +8,7 @@
 typedef struct
 {
 	int sentido, visible, fin_partida;
-	tjugadores j;
+	tjugadores lj;
 	tcartas lc, mazo;
 }tpartida;
 

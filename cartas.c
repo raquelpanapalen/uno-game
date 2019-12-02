@@ -53,9 +53,37 @@ void mezclar_cartas(tcartas *lc)
 		lc->cartas[pos]=aux;
 	}
 }
-/*void mostrar_cartas(tcartas lc,int conf)
+void mostrar_cartas(tcartas lc,int conf)
 {
+	int i, j;
+	printf("|");
+	for (i=0; i<108; i++)
+	{
+		if (conf==TRUE)
+			mostrar_carta(lc.cartas[i]);
+		else
+		{
+			cambiar_color_fondo(WHITE);
+			cambiar_color_letra(RED);
+			printf("UNO");
+			default_attributes();
+		}
+  	printf("|");
+  	if ((i+1)%20 == 0)
+  	{
+  		printf("\n");
+  		printf(" ");
+  		for (j=0; j<20; j++)
+  		{
+  			printf("---+");
+  		}
+  		printf("\n");
+  		printf("|");
+  	}
+  }
+  printf("\n");
 }
+/*
 int buscar_carta(tcarta c, tcartas lc)
 {
 }
@@ -64,7 +92,6 @@ void eliminar_cartas(int pos, tcartas *lc)
 }
 int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)
 void repartir_cartas(int nc, tcartas *mano, tcartas *lc);//pasa las primeras nc cartas de lc a mano(inicializar juego)
-
 void tirar_carta(tcarta c,tcartas *mazo);//pasar carta c de mano del jugador a mazo de descartes
 int ultima_carta(tcartas mano);//contar el numero de cartas de la mano(si es la ultima return=TRUE y sino es la ultima return=FALSE)
 void recuperar_cartas(tcartas *mazo, tcartas *lc);//una vez se acaban las cartas de lc, se recuperan del mazo de descartes
