@@ -11,7 +11,8 @@ typedef struct
 }tjugadores;
 
 void inicializar_jugadores(tjugadores *lj);
-void estado_jugadores(tjugadores lj);//imprime estado jugadores
+void mostrar_estado_jugadores(tjugadores lj, int conf);//imprime estado jugadores
+
 
 
 #endif
