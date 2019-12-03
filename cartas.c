@@ -5,6 +5,10 @@
 #include "cartas.h"
 #include "jugador.h"
 #include "jugadores.h"
+#include "jugada.h"
+#include "jugadas.h"
+#include "partida.h"
+#include "preguntas.h"
 #include "colores.h"
 
 void inicializar_cartas(tcartas *lc)
@@ -46,7 +50,6 @@ void mezclar_cartas(tcartas *lc)
 {
 	int i, pos=0;
 	tcarta aux;
-	srand (time(NULL)); 
 	for (i=0; i<108; i++)
 	{
 		pos=(rand() % (108));
@@ -88,6 +91,21 @@ void mostrar_mazo(tcartas lc, int conf)
 	}
   printf("\n");
 }
+
+void mostrar_mazo_descartes(tcartas mazo, int sentido)
+{
+	printf("Mazo Descartes:\n");
+	printf("|");
+	mostrar_carta(mazo.cartas[mazo.nc-1]);
+	printf("|(%d) Sentido: ", mazo.nc);
+	cambiar_color_letra(BLUE);
+	if (sentido==HORARIO)
+		printf("HORARIO\n");
+	else
+		printf("ANTIHORARIO\n");
+	default_attributes();
+}		
+
 void mostrar_cartas(tcartas lc,int conf)
 {
 	int i, j;
@@ -133,6 +151,31 @@ void repartir_cartas(int numcart, tcartas *mano, tcartas *lc)
 		lc->nc--;
 	}
 }
+void inicializar_mazo_descartes(tcartas *lc, tcartas *mazo)
+{
+	int i=0, pos;
+	mazo->nc=1;
+	while (lc->cartas[i].fig>9)
+	{
+		i++;
+	}
+	if (lc->cartas[i].fig<=9)
+	{
+		mazo->cartas[0]=lc->cartas[i];
+		pos=i;
+	}
+	for (i=pos; i<lc->nc-1; i++)
+	{
+		lc->cartas[i]=lc->cartas[i+1];
+	}
+	lc->nc=lc->nc-1;
+}	
+	
+int ultima_carta(tcartas mano)
+{
+	
+}
+
 /*
 int buscar_carta(tcarta c, tcartas lc)
 {
@@ -143,7 +186,7 @@ void eliminar_cartas(int pos, tcartas *lc)
 int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)
 
 void tirar_carta(tcarta c,tcartas *mazo);//pasar carta c de mano del jugador a mazo de descartes
-int ultima_carta(tcartas mano);//contar el numero de cartas de la mano(si es la ultima return=TRUE y sino es la ultima return=FALSE)
+
 void recuperar_cartas(tcartas *mazo, tcartas *lc);//una vez se acaban las cartas de lc, se recuperan del mazo de descartes
 
 */
