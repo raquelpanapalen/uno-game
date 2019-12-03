@@ -9,13 +9,20 @@
 
 void inicializar_partida(tpartida *p)
 {
+	int i;
 	char pregunta[MAX_CAD]="Quieres ejecutar en modo COMPROBACION?:";	
 	p->sentido=HORARIO;
 	inicializar_jugadores(&p->lj);
 	p->visible=preguntar_si_o_no(pregunta);
 	inicializar_cartas(&p->lc);
 	mezclar_cartas(&p->lc);
-	mostrar_cartas(p->lc, p->visible);
+	for (i=0; i<p->lj.num_jug; i++)
+	{
+		repartir_cartas(7, &p->lj.lista_jug[i].mano, &p->lc);
+	}
+	mostrar_mazo(p->lc, p->visible);
+	mostrar_estado_jugadores(p->lj, p->visible);
+	
 	
 }
 	
