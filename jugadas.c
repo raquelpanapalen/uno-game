@@ -5,18 +5,7 @@
 #include "cartas.h"
 #include "jugador.h"
 #include "jugadores.h"
-#include "partida.h"
-#include "preguntas.h"
+#include "jugada.h"
+#include "jugadas.h"
 #include "colores.h"
-
-int main()
-{
-	tpartida p;
-	srand (time(NULL));
-	inicializar_partida(&p);
-	mostrar_estado_partida(p);
-	
-}
-
-	
 
