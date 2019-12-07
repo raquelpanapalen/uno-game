@@ -4,6 +4,8 @@
 #include "jugador.h"
 #include "preguntas.h"
 #include "colores.h"
+#include "jugada.h"
+#include "jugadas.h"
 
 void apodar_jugador(tjugador *j)
 {

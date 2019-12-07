@@ -139,7 +139,7 @@ void mostrar_cartas(tcartas lc,int conf)
 void repartir_cartas(int numcart, tcartas *mano, tcartas *lc)
 {
 	int i, j;
-	
+        mano->nc=0;
 	for (i=0; i<numcart; i++)
 	{
 		mano->cartas[mano->nc]=lc->cartas[i];
@@ -173,19 +173,43 @@ void inicializar_mazo_descartes(tcartas *lc, tcartas *mazo)
 	
 int ultima_carta(tcartas mano)
 {
+	int ultima=FALSE;
+	if (mano.nc==1)
+		ultima=TRUE;
+		
+	return ultima;
+}
+int buscar_carta(tcarta c, tcartas mano)
+{
+	int i=0, pos;
+	while (mano.cartas[i].fig != c.fig || mano.cartas[i].color != c.color)
+	{
+		i++;
+	}
+	if (mano.cartas[i].fig == c.fig && mano.cartas[i].color == c.color)
+		pos=i;
 	
+	return pos;
 }
-
+void eliminar_cartas(int pos, tcartas *mano)
+{
+	int i;
+	for (i=pos; i<mano->nc-1; i++)
+	{
+		mano->cartas[i]=mano->cartas[i+1];
+	}
+	mano->nc=mano->nc-1;
+}
+void tirar_carta(tcarta c,tcartas *mazo)//pasar carta c de mano del jugador a mazo de descartes
+{
+	mazo->cartas[mazo->nc]=c;
+	mazo->nc+=1;	
+}
 /*
-int buscar_carta(tcarta c, tcartas lc)
-{
-}
-void eliminar_cartas(int pos, tcartas *lc)
-{
-}
+
 int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)
 
-void tirar_carta(tcarta c,tcartas *mazo);//pasar carta c de mano del jugador a mazo de descartes
+
 
 void recuperar_cartas(tcartas *mazo, tcartas *lc);//una vez se acaban las cartas de lc, se recuperan del mazo de descartes
 

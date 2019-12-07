@@ -16,4 +16,6 @@ int jugada_posible(tcarta c, tcarta um)
 		posible=TRUE;
 	else
 		posible=FALSE;
+  return posible;
 }
+

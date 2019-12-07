@@ -4,8 +4,9 @@
 #include "jugador.h"
 #include "preguntas.h"
 #include "jugadores.h"
-#include "partida.h"
 #include "colores.h"
+#include "jugada.h"
+#include "jugadas.h"
 
 void inicializar_jugadores(tjugadores *lj)
 {
