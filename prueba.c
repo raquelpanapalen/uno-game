@@ -4,10 +4,13 @@
 #include "carta.h"
 #include "cartas.h"
 #include "jugador.h"
+#include "jugada.h"
+#include "jugadas.h"
 #include "jugadores.h"
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
+
 
 int main()
 {

@@ -20,11 +20,13 @@ void mostrar_mazo(tcartas lc,int conf);
 void mostrar_mazo_descartes(tcartas mazo, int sentido);
 void inicializar_mazo_descartes(tcartas *lc, tcartas *mazo);
 int ultima_carta(tcartas mano);//contar el numero de cartas de la mano(si es la ultima return=TRUE y sino es la ultima return=FALSE)
-/*
-int buscar_carta(tcarta c, tcartas lc);//return posicion de c en lc
-void eliminar_cartas(int pos, tcartas *lc);//elimina carta de lc en posicion pos
-int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)
+int buscar_carta(tcarta c, tcartas mano);//return posicion de c en mano
+void eliminar_cartas(int pos, tcartas *mano);//elimina carta de mano en posicion pos
 void tirar_carta(tcarta c,tcartas *mazo);//pasar carta c de mano del jugador a mazo de descartes
+/*
+
+int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)
+
 void recuperar_cartas(tcartas *mazo, tcartas *lc);//una vez se acaban las cartas de lc, se recuperan del mazo de descartes
 */
 

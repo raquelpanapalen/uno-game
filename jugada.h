@@ -9,7 +9,7 @@ typedef struct
    tcarta carta;
 }tjugada;
 
-int jugada_posible (tcarta c, tcarta um); //compara las cartas y devuelve true o false segun si es jugada válida o no
+int jugada_posible(tcarta c, tcarta um);
 
 
 #endif
