@@ -9,4 +9,7 @@ typedef struct
    tcarta carta;
 }tjugada;
 
+int jugada_posible(tcarta c, tcarta um, int color);
+
+
 #endif

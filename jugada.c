@@ -7,14 +7,17 @@
 #include "jugadores.h"
 #include "jugada.h"
 #include "jugadas.h"
+#include "partida.h"
+#include "preguntas.h"
 #include "colores.h"
 
-int jugada_posible(tcarta c, tcarta um)
+int jugada_posible(tcarta c, tcarta um, int color)
 {
 	int posible;
-	if (c.color==um.color || c.fig==um.fig)
+	if (c.color==color || c.fig==um.fig)
 		posible=TRUE;
 	else
 		posible=FALSE;
   return posible;
 }
+

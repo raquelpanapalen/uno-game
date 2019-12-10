@@ -18,7 +18,14 @@ int main()
 	srand (time(NULL));
 	inicializar_partida(&p);
 	mostrar_estado_partida(p);
-	
+	while (p.fin_partida!=TRUE)
+	{
+		realizar_jugada(&p);
+		mostrar_estado_partida(p);
+		if (p.fin_partida==FALSE)
+			pasar_turno(1, &p);
+	}
+/*	mostrar_ganador(p);*/	
 }
 
 	

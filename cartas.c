@@ -92,7 +92,7 @@ void mostrar_mazo(tcartas lc, int conf)
   printf("\n");
 }
 
-void mostrar_mazo_descartes(tcartas mazo, int sentido,int color)
+void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 {
 	printf("Mazo Descartes:\n");
 	printf("|");
@@ -145,10 +145,9 @@ void mostrar_cartas(tcartas lc,int conf)
   }
   printf("\n");
 }
-void repartir_cartas(int numcart, tcartas *mano, tcartas *lc)
+void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
 {
 	int i, j;
-        mano->nc=0;
 	for (i=0; i<numcart; i++)
 	{
 		mano->cartas[mano->nc]=lc->cartas[i];
@@ -160,42 +159,78 @@ void repartir_cartas(int numcart, tcartas *mano, tcartas *lc)
 		lc->nc--;
 	}
 }
-void inicializar_mazo_descartes(tpartida *p)
+
+void inicializar_mano(tcartas *mano, tcartas *lc)
+{
+	int i, j;
+        mano->nc=0;
+	for (i=0; i<7; i++)
+	{
+		mano->cartas[mano->nc]=lc->cartas[i];
+		mano->nc++;
+		for (j=0; j<lc->nc-1; j++)
+		{
+			lc->cartas[j]=lc->cartas[j+1];
+		}
+		lc->nc--;
+	}
+}
+void inicializar_mazo_descartes(tcartas *mazo, tcartas *lc)
 {
 	int i=0, pos;
-	p->mazo.nc=1;
-	while (p->lc.cartas[i].fig>9)
+	mazo->nc=1;
+	while (lc->cartas[i].fig>9)
 	{
 		i++;
 	}
-	if (p->lc.cartas[i].fig<=9)
+	if (lc->cartas[i].fig<=9)
 	{
-		p->mazo.cartas[0]=p->lc.cartas[i];
+		mazo->cartas[0]=lc->cartas[i];
 		pos=i;
 	}
-	for (i=pos; i<p->lc.nc-1; i++)
+	for (i=pos; i<lc->nc-1; i++)
 	{
-		p->lc.cartas[i]=p->lc.cartas[i+1];
+		lc->cartas[i]=lc->cartas[i+1];
 	}
-	p->lc.nc=p->lc.nc-1;
-	p->color=p->mazo.cartas[0].color;
+	lc->nc=lc->nc-1;
 }	
 	
 int ultima_carta(tcartas mano)
 {
-	return 0;
+	int ultima=FALSE;
+	if (mano.nc==1)
+		ultima=TRUE;
+		
+	return ultima;
 }
-
+int buscar_carta(tcarta c, tcartas mano)
+{
+	int i=0, pos;
+	while (mano.cartas[i].fig != c.fig || mano.cartas[i].color != c.color)
+	{
+		i++;
+	}
+	if (mano.cartas[i].fig == c.fig && mano.cartas[i].color == c.color)
+		pos=i;
+	
+	return pos;
+}
+void eliminar_cartas(int pos, tcartas *mano)
+{
+	int i;
+	for (i=pos; i<mano->nc-1; i++)
+	{
+		mano->cartas[i]=mano->cartas[i+1];
+	}
+	mano->nc=mano->nc-1;
+}
+void tirar_carta(tcarta c,tcartas *mazo)//pasar carta c de mano del jugador a mazo de descartes
+{
+	mazo->cartas[mazo->nc]=c;
+	mazo->nc+=1;
+	
+}
 /*
-int buscar_carta(tcarta c, tcartas lc)
-{
-}
-void eliminar_cartas(int pos, tcartas *lc)
-{
-}
-int posible_carta(tcarta c1, tcarta c2);//verifica si se puede colocar carta c1 sobre carta c2(return: FALSE no se puede y TRUE se puede)
-
-void tirar_carta(tcarta c,tcartas *mazo);//pasar carta c de mano del jugador a mazo de descartes
 
 void recuperar_cartas(tcartas *mazo, tcartas *lc);//una vez se acaban las cartas de lc, se recuperan del mazo de descartes
 
