@@ -8,17 +8,17 @@
 #include "jugada.h"
 #include "jugadas.h"
 #include "colores.h"
-#include "preguntas.h"
 #include "partida.h"
+#include "preguntas.h"
 
 
-void calcular_jugadas_posibles(tjugadas *pj,tcarta um,tcartas mano)
+void calcular_jugadas_posibles(tjugadas *pj,tcarta um,tcartas mano, tpartida p)
 {
   int i;
 	pj->njugadas=0;
 	for(i=0;i<mano.nc;i++)
   {
-		if(um.fig==mano.cartas[i].fig || um.color==mano.cartas[i].color)
+		if(um.fig==mano.cartas[i].fig || p.color==mano.cartas[i].color || mano.cartas[i].fig=13)
 		{
 		  pj->jugs[pj->njugadas].carta=mano.cartas[i];
 		  pj->jugs[pj->njugadas].pos=i;
@@ -37,33 +37,28 @@ void mostrar_jugadas(tjugadas pj)
 	}
 }
 
-int hay_jugadas(tcartas mano, tcarta um)
+void realizar_jugada(tcartas *mazo,tjugadas pj)
 {
-	int i=0, encontrada=FALSE;
-	while (encontrada==FALSE)
-	{
-		if(um.fig==mano.cartas[i].fig || um.color==mano.cartas[i].color)
-			encontrada=TRUE;
-		i++;
-	}
-	return encontrada;
+  int i,elec;
+  char p[MAX_CAD]="Que cartas tiras? ";
+  elec=preguntar_n_en_rango(p, 0,pj.njugadas-1);
+  for(i=mazo->nc+1;i>0;i--)
+  {
+    mazo->cartas[i+1]=mazo->cartas[i];
+  }
+  mazo->cartas[1]=pj.jugs[elec].carta;
+  mazo->nc++;
 }
 
-tcarta elegir_jugada(int tipo_jug, tjugadas jugadas)
+void realizar_jugada_robots(tcartas *mazo, tjugadas pj)
 {
-	char preg[MAX_CAD]="Que carta tiras?";
-	int pos;
-	tcarta elegida;
-	if (tipo_jug==0)
+	int i, elec;
+	elec=(rand() % (pj.njugadas-1));
+	for (i=mazo->nc +1; i>0; i--)
 	{
-		printf("\n");
-		pos=preguntar_n_en_rango(preg, 0, jugadas.njugadas-1);
-		printf("\n");
+		mazo->cartas[i+1]=mazo->cartas[i];
 	}
-	else
-		pos=(rand()%(jugadas.njugadas));
-	
-	elegida=jugadas.jugs[pos].carta;	
-	return elegida;
+	mazo->cartas[1]=pj.jugs[elec].carta;
+	mazo->nc++;
 }
 
