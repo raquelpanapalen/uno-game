@@ -33,7 +33,7 @@ void mostrar_jugadas(tjugadas pj)
 	for(i=0;i<pj.njugadas;i++)
 	{
 		printf("%d(|",i);
-		mostrar_carta(pj.jugs[i].carta);
+		mostrar_carta(pj.jugs[i].carta, TRUE);
 		printf("|) ");
 	}
 }
