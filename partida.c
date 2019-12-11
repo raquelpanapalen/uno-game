@@ -61,7 +61,7 @@ void realizar_jugada(tpartida *p)
 		}
 		carta_a_tirar=elegir_jugada(p->turno, p->pos_jug);
 		printf("Tira: |");
-		mostrar_carta(carta_a_tirar);
+		mostrar_carta(carta_a_tirar, TRUE);
 		printf("|");
 		/*FALTA COLOR ESCOGIDO*/
 		/*de momento p->color=carta_a_tirar.color*/
@@ -72,14 +72,18 @@ void realizar_jugada(tpartida *p)
 	}
 	else
 	{
+		/*tiene mas cuatro?*/
 		printf("Coge del mazo: |");
-		mostrar_carta(p->lc.cartas[0]);
+		if (p->turno==0)
+			mostrar_carta(p->lc.cartas[0], TRUE);
+		else
+			mostrar_carta(p->lc.cartas[0], p->visible);
 		printf("| ");
 		jug=jugada_posible(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
 		if (jug==TRUE)
 		{
 			printf("Tira: |");
-			mostrar_carta(p->lc.cartas[0]);
+			mostrar_carta(p->lc.cartas[0], TRUE);
 			printf("|");
 			p->color=carta_a_tirar.color;	
 			tirar_carta(p->lc.cartas[0], &p->mazo);

@@ -66,7 +66,7 @@ void mostrar_mazo(tcartas lc, int conf)
 	{
 	  for (i=0; i<lc.nc; i++)
 	  {
-			mostrar_carta(lc.cartas[i]);
+			mostrar_carta(lc.cartas[i], TRUE);
   		printf("|");
 			if ((i+1)%20 == 0)
 			{
@@ -83,10 +83,7 @@ void mostrar_mazo(tcartas lc, int conf)
 	}
 	else
 	{
-		cambiar_color_fondo(WHITE);
-  	cambiar_color_letra(RED);
-		printf("UNO");
-		default_attributes();
+		mostrar_carta(lc.cartas[lc.nc-1], FALSE);
 		printf("|(%d)",lc.nc);
 	}
   printf("\n");
@@ -96,7 +93,7 @@ void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 {
 	printf("Mazo Descartes:\n");
 	printf("|");
-	mostrar_carta(mazo.cartas[mazo.nc-1]);
+	mostrar_carta(mazo.cartas[mazo.nc-1], TRUE);
 	printf("|(%d) ", mazo.nc);
 	if (mazo.cartas[mazo.nc-1].fig>=13)
 	{
@@ -121,15 +118,7 @@ void mostrar_cartas(tcartas lc,int conf)
 	printf("|");
 	for (i=0; i<lc.nc; i++)
 	{
-		if (conf==TRUE)
-			mostrar_carta(lc.cartas[i]);
-		else
-		{
-			cambiar_color_fondo(WHITE);
-			cambiar_color_letra(RED);
-			printf("UNO");
-			default_attributes();
-		}
+		mostrar_carta(lc.cartas[i], conf);
   	printf("|");
   	if ((i+1)%20 == 0)
   	{
