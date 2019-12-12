@@ -48,6 +48,17 @@ int hay_jugadas(tcartas mano, tcarta um, int color)
 	}
 	return encontrada;
 }
+int hay_mas_cuatro(tcartas mano)
+{
+	int i=0, encontrada=0;
+	while (i<mano.nc)
+	{
+		if(mano.cartas[i].fig==14)
+			encontrada++;
+		i++;
+	}
+	return encontrada;
+}
 
 tcarta elegir_jugada(int tipo_jug, tjugadas jugadas)
 {
