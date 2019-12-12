@@ -14,7 +14,6 @@
 void inicializar_cartas(tcartas *lc)
 {
 	int pos, i, j, c;
-	tcarta aux;
 	lc->nc=108;
 	pos=0;
 	for (c=1; c<=4; c++)
