@@ -138,7 +138,7 @@ void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
 	int i, j;
 	for (i=0; i<numcart; i++)
 	{
-		mano->cartas[mano->nc]=lc->cartas[i];
+		mano->cartas[mano->nc]=lc->cartas[0];
 		mano->nc++;
 		for (j=0; j<lc->nc-1; j++)
 		{
