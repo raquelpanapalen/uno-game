@@ -14,6 +14,7 @@
 void inicializar_cartas(tcartas *lc)
 {
 	int pos, i, j, c;
+	tcarta aux;
 	lc->nc=108;
 	pos=0;
 	for (c=1; c<=4; c++)
@@ -65,7 +66,7 @@ void mostrar_mazo(tcartas lc, int conf)
 	{
 	  for (i=0; i<lc.nc; i++)
 	  {
-			mostrar_carta(lc.cartas[i], TRUE);
+			mostrar_carta(lc.cartas[i]);
   		printf("|");
 			if ((i+1)%20 == 0)
 			{
@@ -82,7 +83,10 @@ void mostrar_mazo(tcartas lc, int conf)
 	}
 	else
 	{
-		mostrar_carta(lc.cartas[lc.nc-1], FALSE);
+		cambiar_color_fondo(WHITE);
+  	cambiar_color_letra(RED);
+		printf("UNO");
+		default_attributes();
 		printf("|(%d)",lc.nc);
 	}
   printf("\n");
@@ -92,7 +96,7 @@ void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 {
 	printf("Mazo Descartes:\n");
 	printf("|");
-	mostrar_carta(mazo.cartas[mazo.nc-1], TRUE);
+	mostrar_carta(mazo.cartas[mazo.nc-1]);
 	printf("|(%d) ", mazo.nc);
 	if (mazo.cartas[mazo.nc-1].fig>=13)
 	{
@@ -117,7 +121,15 @@ void mostrar_cartas(tcartas lc,int conf)
 	printf("|");
 	for (i=0; i<lc.nc; i++)
 	{
-		mostrar_carta(lc.cartas[i], conf);
+		if (conf==TRUE)
+			mostrar_carta(lc.cartas[i]);
+		else
+		{
+			cambiar_color_fondo(WHITE);
+			cambiar_color_letra(RED);
+			printf("UNO");
+			default_attributes();
+		}
   	printf("|");
   	if ((i+1)%20 == 0)
   	{
@@ -138,7 +150,7 @@ void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
 	int i, j;
 	for (i=0; i<numcart; i++)
 	{
-		mano->cartas[mano->nc]=lc->cartas[0];
+		mano->cartas[mano->nc]=lc->cartas[i];
 		mano->nc++;
 		for (j=0; j<lc->nc-1; j++)
 		{

@@ -47,85 +47,53 @@ void mostrar_turno(tpartida p)
 	
 void realizar_jugada(tpartida *p)
 {
-	int jug, pos,i;
+	int jug, pos;
 	tcarta carta_a_tirar;	
 	mostrar_turno(*p);
 	jug=hay_jugadas(p->lj.lista_jug[p->turno].mano, p->mazo.cartas[p->mazo.nc-1], p->color);
 	if (jug==TRUE)
 	{
+		calcular_jugadas_posibles(&p->pos_jug,p->color, p->lj.lista_jug[p->turno].mano, p->mazo.cartas[p->mazo.nc-1]);
 		if (p->turno==0 || p->visible==TRUE)
 		{
 			printf("Jugadas posibles: ");
-			calcular_jugadas_posibles(&p->pos_jug,p->color, p->lj.lista_jug[p->turno].mano, p->mazo.cartas[p->mazo.nc-1]);
 			mostrar_jugadas(p->pos_jug);
 		}
 		carta_a_tirar=elegir_jugada(p->turno, p->pos_jug);
 		printf("Tira: |");
-		mostrar_carta(carta_a_tirar, TRUE);
+		mostrar_carta(carta_a_tirar);
 		printf("|");
-		if(carta_a_tirar.fig<10)
-			p->color=carta_a_tirar.color;	
-		else if(carta_a_tirar.fig==10)
-			mas_dos(p);
-		else if(carta_a_tirar.fig==11)
-		  reverse(p);
-		else if(carta_a_tirar.fig==12)
-			pasar_turno(1,p);
-		else
-			wild(p);
+		/*FALTA COLOR ESCOGIDO*/
+		/*de momento p->color=carta_a_tirar.color*/
+		p->color=carta_a_tirar.color;	
 		tirar_carta(carta_a_tirar, &p->mazo);
 		pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 		eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
 	}
 	else
 	{
-		if(hay_mas_cuatro(p->lj.lista_jug[p->turno].mano)>0)
+		printf("Coge del mazo: |");
+		mostrar_carta(p->lc.cartas[0]);
+		printf("| ");
+		jug=jugada_posible(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
+		if (jug==TRUE)
 		{
-		  printf("Jugadas posibles: ");
-		  p->pos_jug.njugadas=0;
-		  for(i=0;i<hay_mas_cuatro(p->lj.lista_jug[p->turno].mano);i++)
- 			{
-				p->pos_jug.jugs[i].carta.fig=14;
-				p->pos_jug.jugs[i].carta.color=0;
-				p->pos_jug.njugadas++;
-			}
-			mostrar_jugadas(p->pos_jug);
-			carta_a_tirar=elegir_jugada(p->turno, p->pos_jug);
 			printf("Tira: |");
-			mostrar_carta(carta_a_tirar, TRUE);
+			mostrar_carta(p->lc.cartas[0]);
 			printf("|");
-			tirar_carta(carta_a_tirar, &p->mazo);
-			pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
-			eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
-			mas_cuatro(p);
-		}//Santi: duda si robas un chupa 4 lo puedes tirar directamente?
+			p->color=p->lc.cartas[0].color;	
+			tirar_carta(p->lc.cartas[0], &p->mazo);
+			eliminar_cartas(0, &p->lc);
+		}
 		else
 		{
-			printf("Coge del mazo: |");
-			if (p->turno==0)
-				mostrar_carta(p->lc.cartas[0], TRUE);
-			else
-				mostrar_carta(p->lc.cartas[0], p->visible);
-			printf("| ");
-			jug=jugada_posible(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
-			if (jug==TRUE)
-			{
-				printf("Tira: |");
-				mostrar_carta(p->lc.cartas[0], TRUE);
-				printf("|");
-				p->color=carta_a_tirar.color;	
-				tirar_carta(p->lc.cartas[0], &p->mazo);
-				eliminar_cartas(0, &p->lc);
-			}
-			else
-			{
-				printf("Ha pasado");
-				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
-			}
+			printf("Ha pasado");
+			robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
 		}
 	}
 	printf("\n");
 	esperar();
+	printf("\n");
 	
 }
 
@@ -142,10 +110,10 @@ void reverse(tpartida *p)
 	p->sentido=p->sentido*-1;
 }
 
-void mas_dos(tpartida *p)//problema saca 2 de lc pero no las mete las 2 en la mano?? pero es raro porque el mas cuatro funciona bien
+void mas_dos(tpartida *p)
 {
-	robar_cartas(2, &p->lj.lista_jug[p->turno+p->sentido].mano, &p->lc);
-	pasar_turno(1, p);
+	robar_cartas(2, &p->lj.lista_jug[p->turno+1].mano, &p->lc);
+	pasar_turno(2, p);
 }
 
 void mas_cuatro(tpartida *p)
@@ -154,8 +122,8 @@ void mas_cuatro(tpartida *p)
 		p->color=preguntar_color();
 	else
 		p->color=(rand()%(NUM_COLORES))+1;
-	robar_cartas(4, &p->lj.lista_jug[p->turno+p->sentido].mano, &p->lc);
-	pasar_turno(1, p);
+	robar_cartas(4, &p->lj.lista_jug[p->turno+1].mano, &p->lc);
+	pasar_turno(2, p);
 }
 
 void wild(tpartida *p)
@@ -163,7 +131,7 @@ void wild(tpartida *p)
 	if (p->turno==0)
 		p->color=preguntar_color();
 	else
-		p->color=(rand()%NUM_COLORES)+1;
+		p->color=(rand()%(NUM_COLORES))+1;
 }
 
 

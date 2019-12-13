@@ -14,7 +14,7 @@
 int jugada_posible(tcarta c, tcarta um, int color)
 {
 	int posible;
-	if (c.color==color || c.fig==um.fig || c.fig==13)
+	if (c.color==color || c.fig==um.fig)
 		posible=TRUE;
 	else
 		posible=FALSE;
