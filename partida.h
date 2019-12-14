@@ -14,7 +14,6 @@ typedef struct
 }tpartida;
 
 void pasar_turno(int npos, tpartida *p);//pasas el npos posiciones en sentido de partida (en el caso de SKIP pasamos 2 posiciones)
-int cambiar_sentido(int sentido);//cambiar sentido al sentido contrario
 void inicializar_partida(tpartida *p);//inicializar partida
 void mostrar_estado_partida(tpartida p);
 void realizar_jugada(tpartida *p);
@@ -23,4 +22,9 @@ void reverse(tpartida *p);
 void mas_dos(tpartida *p);
 void mas_cuatro(tpartida *p);
 void wild(tpartida *p);
+void opciones(tcarta c, tpartida *p);
+void mostrar_carta_tirada(tcarta c, tpartida *p);
+int fin_partida(tpartida p);
+void mostrar_ganador(tpartida p);
+void mostrar_uno(tcartas mano);
 #endif

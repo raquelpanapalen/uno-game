@@ -31,12 +31,19 @@ void inicializar_jugadores(tjugadores *lj)
 }
 void mostrar_estado_jugadores(tjugadores lj, int conf)
 {
-	int i=0;
+	int i=0, uno;
 	printf("%s:\n", lj.lista_jug[i].nombre);
 	mostrar_cartas(lj.lista_jug[i].mano, TRUE);
+	mostrar_uno(lj.lista_jug[i].mano);
+	printf("\n");
 	for (i=1; i<lj.num_jug; i++)
 	{
 		printf("%s:\n", lj.lista_jug[i].nombre);
 		mostrar_cartas(lj.lista_jug[i].mano, conf);
+		mostrar_uno(lj.lista_jug[i].mano);
+		printf("\n");
 	}
 }
+
+
+	
