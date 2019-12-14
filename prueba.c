@@ -25,7 +25,8 @@ int main()
 		if (p.fin_partida==FALSE)
 			pasar_turno(1, &p);
 	}
-/*	mostrar_ganador(p);*/	
+	mostrar_ganador(p);
+	esperar();	
 }
 
 	

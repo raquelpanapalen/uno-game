@@ -24,7 +24,7 @@ void inicializar_partida(tpartida *p)
 	mezclar_cartas(&p->lc);
 	inicializar_mazo_descartes(&p->mazo, &p->lc);
 	p->color=p->mazo.cartas[0].color;
-	p->turno=(rand()%(p->lj.num_jug));//Santi: inicializar el turno (turno lo he añadido en el struct tpartida para llevar el turno del jugador que le toca)
+	p->turno=(rand()%(p->lj.num_jug));
 	for (i=0; i<p->lj.num_jug; i++)
 	{
 		inicializar_mano(&p->lj.lista_jug[i].mano, &p->lc);
@@ -44,10 +44,21 @@ void mostrar_turno(tpartida p)
 	printf("Turno %s: ",p.lj.lista_jug[p.turno].nombre);
 	default_attributes();
 }
+void mostrar_uno(tcartas mano)
+{
+	int uno;
+	uno=ultima_carta(mano);
+	if (uno==TRUE)
+	{
+		cambiar_color_letra(GREEN);
+		printf(" ** UNO **");
+		default_attributes();
+	}
+}
 	
 void realizar_jugada(tpartida *p)
 {
-	int jug, pos;
+	int jug, pos,i;
 	tcarta carta_a_tirar;	
 	mostrar_turno(*p);
 	jug=hay_jugadas(p->lj.lista_jug[p->turno].mano, p->mazo.cartas[p->mazo.nc-1], p->color);
@@ -60,40 +71,60 @@ void realizar_jugada(tpartida *p)
 			mostrar_jugadas(p->pos_jug);
 		}
 		carta_a_tirar=elegir_jugada(p->turno, p->pos_jug);
-		printf("Tira: |");
-		mostrar_carta(carta_a_tirar);
-		printf("|");
-		/*FALTA COLOR ESCOGIDO*/
-		/*de momento p->color=carta_a_tirar.color*/
-		p->color=carta_a_tirar.color;	
-		tirar_carta(carta_a_tirar, &p->mazo);
+		mostrar_carta_tirada(carta_a_tirar, p);
 		pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 		eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
+		opciones(carta_a_tirar, p);
 	}
 	else
 	{
-		printf("Coge del mazo: |");
-		mostrar_carta(p->lc.cartas[0]);
-		printf("| ");
-		jug=jugada_posible(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
-		if (jug==TRUE)
+		if(hay_mas_cuatro(p->lj.lista_jug[p->turno].mano)>0)
 		{
-			printf("Tira: |");
-			mostrar_carta(p->lc.cartas[0]);
-			printf("|");
-			p->color=p->lc.cartas[0].color;	
-			tirar_carta(p->lc.cartas[0], &p->mazo);
-			eliminar_cartas(0, &p->lc);
+		  p->pos_jug.njugadas=0;
+		  for(i=0;i<hay_mas_cuatro(p->lj.lista_jug[p->turno].mano);i++)
+ 			{
+				p->pos_jug.jugs[i].carta.fig=14;
+				p->pos_jug.jugs[i].carta.color=0;
+				p->pos_jug.njugadas++;
+			}
+			if (p->turno==0 || p->visible==TRUE)
+			{
+				printf("Jugadas posibles: ");
+				mostrar_jugadas(p->pos_jug);
+			}
+			carta_a_tirar=elegir_jugada(p->turno, p->pos_jug);
+			mostrar_carta_tirada(carta_a_tirar, p);
+			pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
+			eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
+			mas_cuatro(p);
 		}
 		else
 		{
-			printf("Ha pasado");
-			robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
+			printf("Coge del mazo: |");
+			if (p->turno==0)
+				mostrar_carta(p->lc.cartas[0], TRUE);
+			else
+				mostrar_carta(p->lc.cartas[0], p->visible);
+			printf("| ");
+			jug=jugada_posible(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
+			if (jug==TRUE || p->lc.cartas[0].fig==14)
+			{
+				mostrar_carta_tirada(p->lc.cartas[0], p);
+				carta_a_tirar=p->lc.cartas[0];
+				eliminar_cartas(0, &p->lc);
+				opciones(carta_a_tirar, p);	
+			}
+			else
+			{
+				printf("Ha pasado");
+				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
+			}
 		}
 	}
 	printf("\n");
 	esperar();
 	printf("\n");
+	p->fin_partida=fin_partida(*p);
 	
 }
 
@@ -112,8 +143,8 @@ void reverse(tpartida *p)
 
 void mas_dos(tpartida *p)
 {
-	robar_cartas(2, &p->lj.lista_jug[p->turno+1].mano, &p->lc);
-	pasar_turno(2, p);
+	pasar_turno(1, p);
+	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc);
 }
 
 void mas_cuatro(tpartida *p)
@@ -122,8 +153,8 @@ void mas_cuatro(tpartida *p)
 		p->color=preguntar_color();
 	else
 		p->color=(rand()%(NUM_COLORES))+1;
-	robar_cartas(4, &p->lj.lista_jug[p->turno+1].mano, &p->lc);
-	pasar_turno(2, p);
+	pasar_turno(1, p);
+	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc);
 }
 
 void wild(tpartida *p)
@@ -131,13 +162,60 @@ void wild(tpartida *p)
 	if (p->turno==0)
 		p->color=preguntar_color();
 	else
-		p->color=(rand()%(NUM_COLORES))+1;
+		p->color=(rand()%NUM_COLORES)+1;
 }
 
+void opciones(tcarta c, tpartida *p)
+{
+	if(c.fig<10)
+		p->color=c.color;
+	else if(c.fig==10)
+		mas_dos(p);
+	else if(c.fig==11)
+	  reverse(p);
+	else if(c.fig==12)
+		pasar_turno(1,p);
+	else if(c.fig==13)
+		wild(p);
+	else
+		mas_cuatro(p);
+}	
 
+void mostrar_carta_tirada(tcarta c, tpartida *p)
+{
+	printf("Tira: |");
+	mostrar_carta(c, TRUE);
+	printf("| ");
+	tirar_carta(c, &p->mazo);
+	p->color=c.color;
+}
 
+int fin_partida(tpartida p)
+{
+	int i;
+	while (i<p.lj.num_jug && p.fin_partida==FALSE)
+	{
+		if (p.lj.lista_jug[i].mano.nc==0)
+			p.fin_partida=TRUE;
+		else
+			i++;
+	}
+	return p.fin_partida;
+}
 
-
-
+void mostrar_ganador(tpartida p)
+{
+	int i, ganador=-1;
+	printf("\n===>>> FIN PARTIDA <<<===\n");
+	mostrar_estado_partida(p);
+	while (i<p.lj.num_jug && ganador==-1)
+	{
+		if (p.lj.lista_jug[i].mano.nc==0)
+			ganador=i;
+		else
+			i++;
+	}
+	printf("\n===>>> HA GANADO %s. ¡FELICIDADES! <<<===\n", p.lj.lista_jug[ganador].nombre);
+}
 
 

@@ -33,7 +33,7 @@ void mostrar_jugadas(tjugadas pj)
 	for(i=0;i<pj.njugadas;i++)
 	{
 		printf("%d(|",i);
-		mostrar_carta(pj.jugs[i].carta);
+		mostrar_carta(pj.jugs[i].carta, TRUE);
 		printf("|) ");
 	}
 }
@@ -44,6 +44,17 @@ int hay_jugadas(tcartas mano, tcarta um, int color)
 	while (i<mano.nc && encontrada!=TRUE)
 	{
 		encontrada=jugada_posible(mano.cartas[i], um, color);
+		i++;
+	}
+	return encontrada;
+}
+int hay_mas_cuatro(tcartas mano)
+{
+	int i=0, encontrada=0;
+	while (i<mano.nc)
+	{
+		if(mano.cartas[i].fig==14)
+			encontrada++;
 		i++;
 	}
 	return encontrada;
