@@ -14,9 +14,7 @@
 void inicializar_jugadores(tjugadores *lj)
 {
 	int i;
-	char preg[MAX_CAD]="Cuantos jugadores?";
-	int min=3, max=5;
-	lj->num_jug=preguntar_n_en_rango(preg, min, max);
+	lj->num_jug=preguntar_n_en_rango("Cuantos jugadores?", 3, 5);
 	apodar_jugador(&lj->lista_jug[0]);
   for (i=1; i<lj->num_jug; i++)
   {

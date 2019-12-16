@@ -60,30 +60,30 @@ void mezclar_cartas(tcartas *lc)
 void mostrar_mazo(tcartas lc, int conf)
 {
 	int i, j;
-	printf("Mazo:\n|");
+	printf("Mazo:\n");
 	if (conf==TRUE)
 	{
 	  for (i=0; i<lc.nc; i++)
 	  {
 			mostrar_carta(lc.cartas[i], TRUE);
-  		printf("|");
 			if ((i+1)%20 == 0)
 			{
-				printf("\n");
+				printf("|\n");
 				printf(" ");
 				for (j=0; j<20; j++)
 				{
 					printf("---+");
 				}
 				printf("\n");
-				printf("|");
 			}
 		}
+		if (i%20<20 && i%20!=0)
+  	printf("|");
 	}
 	else
 	{
 		mostrar_carta(lc.cartas[lc.nc-1], FALSE);
-		printf("|(%d)",lc.nc);
+		printf("(%d)",lc.nc);
 	}
   printf("\n");
 }
@@ -91,7 +91,6 @@ void mostrar_mazo(tcartas lc, int conf)
 void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 {
 	printf("Mazo Descartes:\n");
-	printf("|");
 	mostrar_carta(mazo.cartas[mazo.nc-1], TRUE);
 	printf("|(%d) ", mazo.nc);
 	if (mazo.cartas[mazo.nc-1].fig>=13)
@@ -114,23 +113,23 @@ void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 void mostrar_cartas(tcartas lc,int conf)
 {
 	int i, j;
-	printf("|");
 	for (i=0; i<lc.nc; i++)
 	{
 		mostrar_carta(lc.cartas[i], conf);
-  	printf("|");
   	if ((i+1)%20 == 0)
   	{
-  		printf("\n");
+  		printf("|\n");
   		printf(" ");
   		for (j=0; j<20; j++)
   		{
   			printf("---+");
   		}
   		printf("\n");
-  		printf("|");
+
   	}
   }
+  if (i%20<20 && i%20!=0)
+  	printf("|");
 
 }
 void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
