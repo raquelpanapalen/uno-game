@@ -16,7 +16,7 @@ int fuera_de_rango(int n, int min, int max)
  * Esta función pide al usuario un valor dentro del rango [min, max] y lo devuelve.
  * El parámetro s indica el mensaje que se muestra por pantalla al pedirle el dato al usuario.
  */
-int preguntar_n_en_rango(char s[MAX_CAD], int min, int max) 
+int preguntar_n_en_rango(char *s, int min, int max) 
 {
 	int n, uno;
 	char car;
@@ -36,7 +36,7 @@ int preguntar_n_en_rango(char s[MAX_CAD], int min, int max)
  * Esta función pide al usuario que responda  sí (s) o no (n). Devuelve cierto si responde sí y falso si responde no.
  * El parámetro s indica la pregunta que se muestra por pantalla al usuario.
  */
-int preguntar_si_o_no(char s[MAX_CAD]) 
+int preguntar_si_o_no(char *s) 
 {
     char resp[MAX_CAD];
 
@@ -53,11 +53,11 @@ int preguntar_si_o_no(char s[MAX_CAD])
  * Esta función pide al usuario una cadena de caracteres no vacía y la devuelve a través del parámero cad.
  * El parámetro msg indica el mensaje que se muestra por pantalla al pedirle la cadena al usuario.
  */
-void preguntar_cadena(char msg[MAX_CAD], char cad[MN])
+void preguntar_cadena(char *msg, char *cad)
 {
     
     do {
-        printf("%s ", msg);
+        printf("%s", msg);
         scanf("%[^\n]", cad);
         scanf("%*c");
     } while (cad[0]=='\0');

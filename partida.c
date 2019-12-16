@@ -13,12 +13,11 @@
 
 void inicializar_partida(tpartida *p)
 {
-	int i;
-	char pregunta[MAX_CAD]="Quieres ejecutar en modo COMPROBACION?:";	
+	int i;	
 	p->sentido=HORARIO;
 	p->fin_partida=FALSE;
 	inicializar_jugadores(&p->lj);
-	p->visible=preguntar_si_o_no(pregunta);
+	p->visible=preguntar_si_o_no("Quieres ejecutar en modo COMPROBACION?:");
 	printf("\n");
 	inicializar_cartas(&p->lc);
 	mezclar_cartas(&p->lc);
@@ -100,7 +99,7 @@ void realizar_jugada(tpartida *p)
 		}
 		else
 		{
-			printf("Coge del mazo: |");
+			printf("Coge del mazo: ");
 			if (p->turno==0)
 				mostrar_carta(p->lc.cartas[0], TRUE);
 			else
@@ -183,7 +182,7 @@ void opciones(tcarta c, tpartida *p)
 
 void mostrar_carta_tirada(tcarta c, tpartida *p)
 {
-	printf("Tira: |");
+	printf("Tira: ");
 	mostrar_carta(c, TRUE);
 	printf("| ");
 	tirar_carta(c, &p->mazo);
