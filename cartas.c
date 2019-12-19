@@ -49,9 +49,9 @@ void mezclar_cartas(tcartas *lc)
 {
 	int i, pos=0;
 	tcarta aux;
-	for (i=0; i<108; i++)
+	for (i=0; i<lc->nc; i++)
 	{
-		pos=(rand() % (108));
+		pos=(rand() % (lc->nc));
 		aux=lc->cartas[i];
 		lc->cartas[i]=lc->cartas[pos];
 		lc->cartas[pos]=aux;
@@ -132,7 +132,7 @@ void mostrar_cartas(tcartas lc,int conf)
   	printf("|");
 
 }
-void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
+void robar_cartas(int numcart, tcartas *mano, tcartas *lc, tcartas *mazo)
 {
 	int i, j;
 	for (i=0; i<numcart; i++)
@@ -144,6 +144,11 @@ void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
 			lc->cartas[j]=lc->cartas[j+1];
 		}
 		lc->nc--;
+		if(lc->nc<=0)
+		{
+			recuperar_cartas(mazo, lc);
+			mezclar_cartas(lc);
+		}
 	}
 }
 
@@ -220,14 +225,15 @@ void tirar_carta(tcarta c,tcartas *mazo)//pasar carta c de mano del jugador a ma
 
 void recuperar_cartas(tcartas *mazo, tcartas *lc)
 {
-	int i;
+	int i,j;
 	
 	for (i=0; i<mazo->nc-1; i++)
 	{
 		lc->cartas[lc->nc]=mazo->cartas[i];
 		lc->nc++;
 	}
-	for (i=0; i<mazo->nc-2; i++)
+	j=mazo->nc-1;
+	for (i=0; i<j; i++)
 	{
 		eliminar_cartas(0, mazo);
 	}
