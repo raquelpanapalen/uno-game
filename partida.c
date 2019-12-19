@@ -21,6 +21,7 @@ void inicializar_partida(tpartida *p)
 	printf("\n");
 	inicializar_cartas(&p->lc);
 	mezclar_cartas(&p->lc);
+//probar p->lc.nc=x;
 	inicializar_mazo_descartes(&p->mazo, &p->lc);
 	p->color=p->mazo.cartas[0].color;
 	p->turno=(rand()%(p->lj.num_jug));
@@ -119,7 +120,7 @@ void realizar_jugada(tpartida *p)
 			else
 			{
 				printf("Ha pasado");
-				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
+				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 			}
 		}
 	}
@@ -146,7 +147,7 @@ void reverse(tpartida *p)
 void mas_dos(tpartida *p)
 {
 	pasar_turno(1, p);
-	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc);
+	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
 
 void mas_cuatro(tpartida *p)
@@ -163,7 +164,7 @@ void mas_cuatro(tpartida *p)
 		printf("| ");
 	}
 	pasar_turno(1, p);
-	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc);
+	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
 
 void wild(tpartida *p)

@@ -24,7 +24,7 @@ void inicializar_jugadores(tjugadores *lj)
   	lj->lista_jug[i].nombre[3]='o';
   	lj->lista_jug[i].nombre[4]='t';
   	lj->lista_jug[i].nombre[5]='0'+i;
-		lj->lista_jug[i].nombre[6]='\0';
+	lj->lista_jug[i].nombre[6]='\0';
   }
 }
 void mostrar_estado_jugadores(tjugadores lj, int conf)
