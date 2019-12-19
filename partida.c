@@ -73,6 +73,7 @@ void realizar_jugada(tpartida *p)
 		mostrar_carta_tirada(carta_a_tirar, p);
 		pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 		eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
+		mostrar_uno(p->lj.lista_jug[p->turno].mano);
 		opciones(carta_a_tirar, p);
 	}
 	else
@@ -95,6 +96,7 @@ void realizar_jugada(tpartida *p)
 			mostrar_carta_tirada(carta_a_tirar, p);
 			pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 			eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
+			mostrar_uno(p->lj.lista_jug[p->turno].mano);
 			mas_cuatro(p);
 		}
 		else
@@ -111,6 +113,7 @@ void realizar_jugada(tpartida *p)
 				mostrar_carta_tirada(p->lc.cartas[0], p);
 				carta_a_tirar=p->lc.cartas[0];
 				eliminar_cartas(0, &p->lc);
+				mostrar_uno(p->lj.lista_jug[p->turno].mano);
 				opciones(carta_a_tirar, p);	
 			}
 			else
@@ -151,7 +154,14 @@ void mas_cuatro(tpartida *p)
 	if (p->turno==0)
 		p->color=preguntar_color();
 	else
+	{
 		p->color=(rand()%(NUM_COLORES))+1;
+		printf("Color escogido: |");
+		cambiar_color_fondo(p->color);
+		printf("   ");
+		default_attributes();
+		printf("| ");
+	}
 	pasar_turno(1, p);
 	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc);
 }
@@ -161,7 +171,14 @@ void wild(tpartida *p)
 	if (p->turno==0)
 		p->color=preguntar_color();
 	else
+	{
 		p->color=(rand()%NUM_COLORES)+1;
+		printf("Color escogido: |");
+		cambiar_color_fondo(p->color);
+		printf("   ");
+		default_attributes();
+		printf("| ");
+	}
 }
 
 void opciones(tcarta c, tpartida *p)
