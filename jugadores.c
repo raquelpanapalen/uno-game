@@ -14,7 +14,9 @@
 void inicializar_jugadores(tjugadores *lj)
 {
 	int i;
-	lj->num_jug=preguntar_n_en_rango("Cuantos jugadores?", 3, 5);
+	char preg[MAX_CAD]="Cuantos jugadores?";
+	int min=3, max=5;
+	lj->num_jug=preguntar_n_en_rango(preg, min, max);
 	apodar_jugador(&lj->lista_jug[0]);
   for (i=1; i<lj->num_jug; i++)
   {
@@ -24,7 +26,7 @@ void inicializar_jugadores(tjugadores *lj)
   	lj->lista_jug[i].nombre[3]='o';
   	lj->lista_jug[i].nombre[4]='t';
   	lj->lista_jug[i].nombre[5]='0'+i;
-	lj->lista_jug[i].nombre[6]='\0';
+		lj->lista_jug[i].nombre[6]='\0';
   }
 }
 void mostrar_estado_jugadores(tjugadores lj, int conf)

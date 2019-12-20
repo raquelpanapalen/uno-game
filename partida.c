@@ -13,15 +13,15 @@
 
 void inicializar_partida(tpartida *p)
 {
-	int i;	
+	int i;
+	char pregunta[MAX_CAD]="Quieres ejecutar en modo COMPROBACION?:";	
 	p->sentido=HORARIO;
 	p->fin_partida=FALSE;
 	inicializar_jugadores(&p->lj);
-	p->visible=preguntar_si_o_no("Quieres ejecutar en modo COMPROBACION?:");
+	p->visible=preguntar_si_o_no(pregunta);
 	printf("\n");
 	inicializar_cartas(&p->lc);
 	mezclar_cartas(&p->lc);
-//probar p->lc.nc=x;
 	inicializar_mazo_descartes(&p->mazo, &p->lc);
 	p->color=p->mazo.cartas[0].color;
 	p->turno=(rand()%(p->lj.num_jug));
@@ -74,7 +74,6 @@ void realizar_jugada(tpartida *p)
 		mostrar_carta_tirada(carta_a_tirar, p);
 		pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 		eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
-		mostrar_uno(p->lj.lista_jug[p->turno].mano);
 		opciones(carta_a_tirar, p);
 	}
 	else
@@ -97,12 +96,11 @@ void realizar_jugada(tpartida *p)
 			mostrar_carta_tirada(carta_a_tirar, p);
 			pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 			eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
-			mostrar_uno(p->lj.lista_jug[p->turno].mano);
 			mas_cuatro(p);
 		}
 		else
 		{
-			printf("Coge del mazo: ");
+			printf("Coge del mazo: |");
 			if (p->turno==0)
 				mostrar_carta(p->lc.cartas[0], TRUE);
 			else
@@ -114,13 +112,12 @@ void realizar_jugada(tpartida *p)
 				mostrar_carta_tirada(p->lc.cartas[0], p);
 				carta_a_tirar=p->lc.cartas[0];
 				eliminar_cartas(0, &p->lc);
-				mostrar_uno(p->lj.lista_jug[p->turno].mano);
 				opciones(carta_a_tirar, p);	
 			}
 			else
 			{
 				printf("Ha pasado");
-				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
+				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
 			}
 		}
 	}
@@ -147,7 +144,7 @@ void reverse(tpartida *p)
 void mas_dos(tpartida *p)
 {
 	pasar_turno(1, p);
-	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
+	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc);
 }
 
 void mas_cuatro(tpartida *p)
@@ -155,16 +152,9 @@ void mas_cuatro(tpartida *p)
 	if (p->turno==0)
 		p->color=preguntar_color();
 	else
-	{
 		p->color=(rand()%(NUM_COLORES))+1;
-		printf("Color escogido: |");
-		cambiar_color_fondo(p->color);
-		printf("   ");
-		default_attributes();
-		printf("| ");
-	}
 	pasar_turno(1, p);
-	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
+	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc);
 }
 
 void wild(tpartida *p)
@@ -172,14 +162,7 @@ void wild(tpartida *p)
 	if (p->turno==0)
 		p->color=preguntar_color();
 	else
-	{
 		p->color=(rand()%NUM_COLORES)+1;
-		printf("Color escogido: |");
-		cambiar_color_fondo(p->color);
-		printf("   ");
-		default_attributes();
-		printf("| ");
-	}
 }
 
 void opciones(tcarta c, tpartida *p)
@@ -200,7 +183,7 @@ void opciones(tcarta c, tpartida *p)
 
 void mostrar_carta_tirada(tcarta c, tpartida *p)
 {
-	printf("Tira: ");
+	printf("Tira: |");
 	mostrar_carta(c, TRUE);
 	printf("| ");
 	tirar_carta(c, &p->mazo);
