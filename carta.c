@@ -13,7 +13,6 @@
 
 void mostrar_carta(tcarta c, int conf)
 {
-	printf("|");
 	if (conf==TRUE)
 	{
 		cambiar_color_fondo(c.color);

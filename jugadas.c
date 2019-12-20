@@ -32,7 +32,7 @@ void mostrar_jugadas(tjugadas pj)
 	int i; 
 	for(i=0;i<pj.njugadas;i++)
 	{
-		printf("%d(",i);
+		printf("%d(|",i);
 		mostrar_carta(pj.jugs[i].carta, TRUE);
 		printf("|) ");
 	}
@@ -62,12 +62,13 @@ int hay_mas_cuatro(tcartas mano)
 
 tcarta elegir_jugada(int tipo_jug, tjugadas jugadas)
 {
+	char preg[MAX_CAD]="Que carta tiras?";
 	int pos;
 	tcarta elegida;
 	if (tipo_jug==0)
 	{
 		printf("\n");
-		pos=preguntar_n_en_rango("Que carta tiras?", 0, jugadas.njugadas-1);
+		pos=preguntar_n_en_rango(preg, 0, jugadas.njugadas-1);
 	}
 	else
 		pos=(rand()%(jugadas.njugadas));

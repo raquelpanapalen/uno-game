@@ -49,9 +49,9 @@ void mezclar_cartas(tcartas *lc)
 {
 	int i, pos=0;
 	tcarta aux;
-	for (i=0; i<lc->nc; i++)
+	for (i=0; i<108; i++)
 	{
-		pos=(rand() % (lc->nc));
+		pos=(rand() % (108));
 		aux=lc->cartas[i];
 		lc->cartas[i]=lc->cartas[pos];
 		lc->cartas[pos]=aux;
@@ -60,30 +60,30 @@ void mezclar_cartas(tcartas *lc)
 void mostrar_mazo(tcartas lc, int conf)
 {
 	int i, j;
-	printf("Mazo:\n");
+	printf("Mazo:\n|");
 	if (conf==TRUE)
 	{
 	  for (i=0; i<lc.nc; i++)
 	  {
 			mostrar_carta(lc.cartas[i], TRUE);
+  		printf("|");
 			if ((i+1)%20 == 0)
 			{
-				printf("|\n");
+				printf("\n");
 				printf(" ");
 				for (j=0; j<20; j++)
 				{
 					printf("---+");
 				}
 				printf("\n");
+				printf("|");
 			}
 		}
-		if (i%20<20 && i%20!=0)
-  	printf("|");
 	}
 	else
 	{
 		mostrar_carta(lc.cartas[lc.nc-1], FALSE);
-		printf("(%d)",lc.nc);
+		printf("|(%d)",lc.nc);
 	}
   printf("\n");
 }
@@ -91,6 +91,7 @@ void mostrar_mazo(tcartas lc, int conf)
 void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 {
 	printf("Mazo Descartes:\n");
+	printf("|");
 	mostrar_carta(mazo.cartas[mazo.nc-1], TRUE);
 	printf("|(%d) ", mazo.nc);
 	if (mazo.cartas[mazo.nc-1].fig>=13)
@@ -113,26 +114,26 @@ void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 void mostrar_cartas(tcartas lc,int conf)
 {
 	int i, j;
+	printf("|");
 	for (i=0; i<lc.nc; i++)
 	{
 		mostrar_carta(lc.cartas[i], conf);
+  	printf("|");
   	if ((i+1)%20 == 0)
   	{
-  		printf("|\n");
+  		printf("\n");
   		printf(" ");
   		for (j=0; j<20; j++)
   		{
   			printf("---+");
   		}
   		printf("\n");
-
+  		printf("|");
   	}
   }
-  if (i%20<20 && i%20!=0)
-  	printf("|");
 
 }
-void robar_cartas(int numcart, tcartas *mano, tcartas *lc, tcartas *mazo)
+void robar_cartas(int numcart, tcartas *mano, tcartas *lc)
 {
 	int i, j;
 	for (i=0; i<numcart; i++)
@@ -144,11 +145,6 @@ void robar_cartas(int numcart, tcartas *mano, tcartas *lc, tcartas *mazo)
 			lc->cartas[j]=lc->cartas[j+1];
 		}
 		lc->nc--;
-		if(lc->nc<=0)
-		{
-			recuperar_cartas(mazo, lc);
-			mezclar_cartas(lc);
-		}
 	}
 }
 
@@ -225,15 +221,14 @@ void tirar_carta(tcarta c,tcartas *mazo)//pasar carta c de mano del jugador a ma
 
 void recuperar_cartas(tcartas *mazo, tcartas *lc)
 {
-	int i,j;
+	int i;
 	
 	for (i=0; i<mazo->nc-1; i++)
 	{
 		lc->cartas[lc->nc]=mazo->cartas[i];
 		lc->nc++;
 	}
-	j=mazo->nc-1;
-	for (i=0; i<j; i++)
+	for (i=0; i<mazo->nc-2; i++)
 	{
 		eliminar_cartas(0, mazo);
 	}
