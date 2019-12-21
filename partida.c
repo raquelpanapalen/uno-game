@@ -13,12 +13,11 @@
 
 void inicializar_partida(tpartida *p)
 {
-	int i;
-	char pregunta[MAX_CAD]="Quieres ejecutar en modo COMPROBACION?:";	
+	int i;	
 	p->sentido=HORARIO;
 	p->fin_partida=FALSE;
 	inicializar_jugadores(&p->lj);
-	p->visible=preguntar_si_o_no(pregunta);
+	p->visible=preguntar_si_o_no("Quieres ejecutar en modo COMPROBACION?:");
 	printf("\n");
 	inicializar_cartas(&p->lc);
 	mezclar_cartas(&p->lc);
@@ -53,12 +52,13 @@ void mostrar_uno(tcartas mano)
 		cambiar_color_letra(GREEN);
 		printf(" ** UNO **");
 		default_attributes();
+		printf(" ");
 	}
 }
 	
 void realizar_jugada(tpartida *p)
 {
-	int jug, pos,i;
+	int jug, pos, i;
 	tcarta carta_a_tirar;	
 	mostrar_turno(*p);
 	jug=hay_jugadas(p->lj.lista_jug[p->turno].mano, p->mazo.cartas[p->mazo.nc-1], p->color);
@@ -74,51 +74,30 @@ void realizar_jugada(tpartida *p)
 		mostrar_carta_tirada(carta_a_tirar, p);
 		pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 		eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
+		mostrar_uno(p->lj.lista_jug[p->turno].mano);
 		opciones(carta_a_tirar, p);
 	}
 	else
 	{
-		if(hay_mas_cuatro(p->lj.lista_jug[p->turno].mano)>0)
+		printf("Coge del mazo: ");
+		if (p->turno==0)
+			mostrar_carta(p->lc.cartas[0], TRUE);
+		else
+			mostrar_carta(p->lc.cartas[0], p->visible);
+		printf("| ");
+		jug=jugada_posible_scolor(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
+		if (jug==TRUE || p->lc.cartas[0].fig==14)
 		{
-		  p->pos_jug.njugadas=0;
-		  for(i=0;i<hay_mas_cuatro(p->lj.lista_jug[p->turno].mano);i++)
- 			{
-				p->pos_jug.jugs[i].carta.fig=14;
-				p->pos_jug.jugs[i].carta.color=0;
-				p->pos_jug.njugadas++;
-			}
-			if (p->turno==0 || p->visible==TRUE)
-			{
-				printf("Jugadas posibles: ");
-				mostrar_jugadas(p->pos_jug);
-			}
-			carta_a_tirar=elegir_jugada(p->turno, p->pos_jug);
-			mostrar_carta_tirada(carta_a_tirar, p);
-			pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
-			eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
-			mas_cuatro(p);
+			mostrar_carta_tirada(p->lc.cartas[0], p);
+			carta_a_tirar=p->lc.cartas[0];
+			eliminar_cartas(0, &p->lc);
+			mostrar_uno(p->lj.lista_jug[p->turno].mano);
+			opciones(carta_a_tirar, p);	
 		}
 		else
 		{
-			printf("Coge del mazo: |");
-			if (p->turno==0)
-				mostrar_carta(p->lc.cartas[0], TRUE);
-			else
-				mostrar_carta(p->lc.cartas[0], p->visible);
-			printf("| ");
-			jug=jugada_posible(p->lc.cartas[0], p->mazo.cartas[p->mazo.nc-1], p->color);
-			if (jug==TRUE || p->lc.cartas[0].fig==14)
-			{
-				mostrar_carta_tirada(p->lc.cartas[0], p);
-				carta_a_tirar=p->lc.cartas[0];
-				eliminar_cartas(0, &p->lc);
-				opciones(carta_a_tirar, p);	
-			}
-			else
-			{
-				printf("Ha pasado");
-				robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc);
-			}
+			printf("Ha pasado");
+			robar_cartas(1, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 		}
 	}
 	printf("\n");
@@ -144,7 +123,7 @@ void reverse(tpartida *p)
 void mas_dos(tpartida *p)
 {
 	pasar_turno(1, p);
-	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc);
+	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
 
 void mas_cuatro(tpartida *p)
@@ -153,8 +132,13 @@ void mas_cuatro(tpartida *p)
 		p->color=preguntar_color();
 	else
 		p->color=(rand()%(NUM_COLORES))+1;
+	printf("Color escogido: |");
+	cambiar_color_fondo(p->color);
+	printf("   ");
+	default_attributes();
+	printf("| ");
 	pasar_turno(1, p);
-	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc);
+	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
 
 void wild(tpartida *p)
@@ -163,6 +147,11 @@ void wild(tpartida *p)
 		p->color=preguntar_color();
 	else
 		p->color=(rand()%NUM_COLORES)+1;
+	printf("Color escogido: |");
+	cambiar_color_fondo(p->color);
+	printf("   ");
+	default_attributes();
+	printf("| ");
 }
 
 void opciones(tcarta c, tpartida *p)
@@ -183,7 +172,7 @@ void opciones(tcarta c, tpartida *p)
 
 void mostrar_carta_tirada(tcarta c, tpartida *p)
 {
-	printf("Tira: |");
+	printf("Tira: ");
 	mostrar_carta(c, TRUE);
 	printf("| ");
 	tirar_carta(c, &p->mazo);

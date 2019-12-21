@@ -16,7 +16,7 @@ void inicializar_cartas(tcartas *lc); //inicializa las 108 cartas en lc (sin bar
 void mezclar_cartas(tcartas *lc);//mezcla cartas lc
 void mostrar_cartas(tcartas lc,int conf); //mostrar lc si conf = TRUE o mostrar |UNO| si conf = FALSE
 void inicializar_mano(tcartas *mano, tcartas *lc);//pasa las primeras 7 cartas de lc a mano(inicializar juego)
-void robar_cartas(int numcart, tcartas *mano, tcartas *lc); //robar cartas al pasar turno o cartas especiales
+void robar_cartas(int numcart, tcartas *mano, tcartas *lc, tcartas *mazo); //robar cartas al pasar turno o cartas especiales
 void mostrar_mazo(tcartas lc,int conf);
 void mostrar_mazo_descartes(tcartas mazo, int sentido, int color);
 void inicializar_mazo_descartes(tcartas *mazo, tcartas *lc);

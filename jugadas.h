@@ -12,9 +12,9 @@ typedef struct
 
 void mostrar_jugadas(tjugadas pj);
 void calcular_jugadas_posibles(tjugadas *pj,int color,tcartas mano, tcarta um);//um es ultima carta mazo de descartes
-int hay_mas_cuatro(tcartas mano);
 int hay_jugadas(tcartas mano, tcarta um, int color); //return cuantas cartas posibles hay
 tcarta elegir_jugada(int tipo_jug, tjugadas pjugs);
+int hay_color(int color, tcartas mano);
 
 
 #endif
