@@ -13,7 +13,6 @@
 
 void apodar_jugador(tjugador *j)
 {
-	char pregunta[20]="Tu nombre?";
-	preguntar_cadena(pregunta, j->nombre);
+	preguntar_cadena("Tu nombre? ", j->nombre);
 }
 
