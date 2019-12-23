@@ -6,13 +6,10 @@
 
 typedef struct
 {
-   char nombre[MN];
-   tcartas mano;
+   char nombre[MN];//guarda el nombre del jugador en un vector de char.
+   tcartas mano;//guarda la mano del jugador en un struct tipo tcartas.
 }tjugador;
 
-
-tcarta seleccionar_jugada();//elegir opcion desde teclado y return tcarta escojida
-void apodar_jugador(tjugador *j);//definir el nombre del jugador
-void estado_jugador(tjugador j);//imprime estado jugador j
+void apodar_jugador(tjugador *j);
 
 #endif

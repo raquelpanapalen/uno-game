@@ -6,12 +6,12 @@
 
 typedef struct
 {
-   int num_jug;
-   tjugador lista_jug[MJ];
+   int num_jug;//guarda el número de jugadores.
+   tjugador lista_jug[MJ];//guarda los jugadores en un vector de tipo tjugador.
 }tjugadores;
 
 void inicializar_jugadores(tjugadores *lj);
-void mostrar_estado_jugadores(tjugadores lj, int conf);//imprime estado jugadores
+void mostrar_estado_jugadores(tjugadores lj, int conf);
 
 
 

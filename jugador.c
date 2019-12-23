@@ -10,7 +10,9 @@
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
-
+/*
+*Apoda al jugador real pidiendo el nombre por teclado mediante la función preguntar_cadena. 
+*/
 void apodar_jugador(tjugador *j)
 {
 	preguntar_cadena("Tu nombre? ", j->nombre);

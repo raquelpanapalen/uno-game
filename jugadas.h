@@ -6,13 +6,13 @@
 
 typedef struct
 {
-   int njugadas;
-   tjugada jugs[MJUGADAS];
+   int njugadas;//guarda el número de jugadas posibles de la mano del jugador.
+   tjugada jugs[MJUGADAS];//guarda las jugadas posibles del jugador en un vector de tjugada.
 }tjugadas;
 
 void mostrar_jugadas(tjugadas pj);
-void calcular_jugadas_posibles(tjugadas *pj,int color,tcartas mano, tcarta um);//um es ultima carta mazo de descartes
-int hay_jugadas(tcartas mano, tcarta um, int color); //return cuantas cartas posibles hay
+void calcular_jugadas_posibles(tjugadas *pj,int color,tcartas mano, tcarta um);
+int hay_jugadas(tcartas mano, tcarta um, int color);
 tcarta elegir_jugada(int tipo_jug, tjugadas pjugs);
 int hay_color(int color, tcartas mano);
 

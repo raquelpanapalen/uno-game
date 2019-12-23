@@ -5,8 +5,8 @@
 
 typedef struct
 {
-   int pos;
-   tcarta carta;
+   int pos;//guarda la posición de la carta jugada en la mano.
+   tcarta carta;//guara la carta jugada.
 }tjugada;
 
 int jugada_posible_scolor(tcarta c, tcarta um, int color);

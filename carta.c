@@ -10,7 +10,10 @@
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
-
+/*
+*conf==TRUE-->Muestra la carta c.
+*conf==FALSE-->Muestra |UNO|.
+*/
 void mostrar_carta(tcarta c, int conf)
 {
 	printf("|");
