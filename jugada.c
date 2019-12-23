@@ -10,7 +10,13 @@
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
-
+/*
+*return TRUE si: 
+->el color de la carta um(ultima mazo de descartes) o el escojido coinciden con la carta c.
+->si la figura coincide de la carta um(ultima mazo de descartes) con la de la carta c, siempre que no sea un W+4. 
+->si la figura de la carta c es un W.
+*return FALSE si no se cumple ningún requisito anterior. 
+*/
 int jugada_posible_scolor(tcarta c, tcarta um, int color)
 {
 	int posible;
@@ -20,7 +26,12 @@ int jugada_posible_scolor(tcarta c, tcarta um, int color)
 		posible=FALSE;
   return posible;
 }
-
+/*
+*return TRUE si:
+->si la figura de la carta um(ultima mazo de descartes) coincide con la de la carta c, siempre que no sea un W+4. 
+->si la figura de la carta c es un W.
+*return FALSE si no se cumple ningún requisito anterior. 
+*/
 int jugada_posible_ncolor(tcarta c, tcarta um)
 {
 	int posible;

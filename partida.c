@@ -10,7 +10,9 @@
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
-
+/*
+*incializa la partida usando las funciones definidas en otras librerias. 
+*/
 void inicializar_partida(tpartida *p)
 {
 	int i;	
@@ -30,12 +32,25 @@ void inicializar_partida(tpartida *p)
 	}	
 	
 }
+/*
+*p.visible==TRUE muestra:
+->Primero la lista de cartas.
+->Segundo la ultima carta del mazo de descartes, el numero de cartas que tiene este, el sentido de la partida y el color escojido en caso de W o W+4.
+->Tercero las manos de los jugadores con los respectivos nombres de cada jugador. 
+*p.visibles==FALSE muestra: 
+->Primero la última carta de la lista de cartas de robar bocaabajo junto al número de cartas de este.
+->Segundo la ultima carta del mazo de descartes, el numero de cartas que tiene este, el sentido de la partida y el color escojido en caso de W o W+4.
+->Tercero la mano del jugador con el respectivo nombre de este y las manos de los robots boca abajo con sus respectivos nombres.
+*/
 void mostrar_estado_partida(tpartida p)
 {
 	mostrar_mazo(p.lc, p.visible);
 	mostrar_mazo_descartes(p.mazo, p.sentido, p.color);
 	mostrar_estado_jugadores(p.lj, p.visible);
 }
+/*
+*Muestra el nombre del jugador que le toca tirar. 
+*/
 void mostrar_turno(tpartida p)
 {
 	printf("\n");
@@ -43,6 +58,9 @@ void mostrar_turno(tpartida p)
 	printf("Turno %s: ",p.lj.lista_jug[p.turno].nombre);
 	default_attributes();
 }
+/*
+*Muestra **UNO** a continuación de la carta final del jugador que solo tiene una carta. 
+*/
 void mostrar_uno(tcartas mano)
 {
 	int uno;
@@ -55,7 +73,15 @@ void mostrar_uno(tcartas mano)
 		printf(" ");
 	}
 }
-	
+/*
+*Si hay jugadas(sin contar W+4) en la mano del jugador, las calculas y en el caso de la persona real le hace escojer una jugada mediante funciones definidas anteriormente.
+*Si no hay jugadas(sin contar W+4) en la mano del jugador:
+->Comprueba si es el turno de la persona real para mostarla o no.
+->Comprueba si la cara carta que roba puede ser tirada directamente(si es el caso se tira directamente, sino se añade a la mano y se pasa turno).
+*Una vez realizada la jugada se comprueba si es una carta especial y se realiza la acción especifica de la carta en cuestión.
+*Se comprueba si la partida ha finalizado o no.  
+*/
+
 void realizar_jugada(tpartida *p)
 {
 	int jug, pos, i;
@@ -106,7 +132,10 @@ void realizar_jugada(tpartida *p)
 	p->fin_partida=fin_partida(*p);
 	
 }
-
+/*
+*Se suma tantas posiciones como marca npos en el sentido de p->sentido. 
+*Si el el turno sobrepasa los limites de 0-4 se devuelve a su sitio correspondiente. 
+*/
 void pasar_turno(int npos, tpartida *p)
 {
 	p->turno=p->turno+npos*p->sentido;
@@ -115,17 +144,29 @@ void pasar_turno(int npos, tpartida *p)
 	if (p->turno<=-1)
 		p->turno=(p->lj.num_jug-npos);
 }
+/*
+*Se invierte el sentido de la partida. 
+*/
 void reverse(tpartida *p)
 {
 	p->sentido=p->sentido*-1;
 }
-
+/*
+*Se obliga a robar 2 cartas de la lista de cartas al siguiente jugador
+*Se pasa el turno del siguiente jugador.
+*/
 void mas_dos(tpartida *p)
 {
 	pasar_turno(1, p);
 	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
-
+/*
+*Se cambia el color de la siguiente jugada. 
+->turno==0--> el jugador real elige el color.
+->turno!=0--> el robot elige un color aleatorio.
+*Se obliga a robar 4 cartas de la lista de cartas al siguiente jugador 
+*Se pasa el turno del siguiente jugador.
+*/
 void mas_cuatro(tpartida *p)
 {
 	if (p->turno==0)
@@ -140,7 +181,11 @@ void mas_cuatro(tpartida *p)
 	pasar_turno(1, p);
 	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
-
+/*
+*Se cambia el color de la siguiente jugada. 
+->turno==0--> el jugador real elige el color.
+->turno!=0--> el robot elige un color aleatorio.
+*/
 void wild(tpartida *p)
 {
 	if (p->turno==0)
@@ -153,7 +198,9 @@ void wild(tpartida *p)
 	default_attributes();
 	printf("| ");
 }
-
+/*
+*Se determina la acción de las cartas especiales.
+*/
 void opciones(tcarta c, tpartida *p)
 {
 	if(c.fig<10)
@@ -169,7 +216,10 @@ void opciones(tcarta c, tpartida *p)
 	else
 		mas_cuatro(p);
 }	
-
+/*
+*Se muestra la carta c que se tira al mazo de descartes.
+*Se marca el color de la partida como el color de la carta c tirada. 
+*/
 void mostrar_carta_tirada(tcarta c, tpartida *p)
 {
 	printf("Tira: ");
@@ -178,7 +228,10 @@ void mostrar_carta_tirada(tcarta c, tpartida *p)
 	tirar_carta(c, &p->mazo);
 	p->color=c.color;
 }
-
+/*
+*return TRUE si algún jugador se queda sin cartas en su mano.
+*return FALSE si todos los jugadores aún tienen cartas en su mano.
+*/
 int fin_partida(tpartida p)
 {
 	int i;
@@ -191,11 +244,16 @@ int fin_partida(tpartida p)
 	}
 	return p.fin_partida;
 }
-
+/*
+*Se muestra un mensaje de fin de partida.
+*Se muestra el estado final de la partida.
+*Se muestra el nombre del jugador ganador(que se queda sin cartas en la mano).
+*/
 void mostrar_ganador(tpartida p)
 {
-	int i, ganador=-1;
-	printf("\n===>>> FIN PARTIDA <<<===\n");
+	int i=0, ganador=-1;
+	printf("\n===>>> FIN PARTIDA <<<===\n");	
+	p.visible=TRUE;
 	mostrar_estado_partida(p);
 	while (i<p.lj.num_jug && ganador==-1)
 	{

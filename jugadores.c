@@ -10,7 +10,9 @@
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
-
+/*
+*Inicializa el jugador real y los robots pidiendo primero el nombre del jugador real y a continuación poniendo nombre a los robots según el ordén cronológico. 
+*/
 void inicializar_jugadores(tjugadores *lj)
 {
 	int i;
@@ -27,6 +29,10 @@ void inicializar_jugadores(tjugadores *lj)
 	lj->lista_jug[i].nombre[6]='\0';
   }
 }
+/*
+*conf==TRUE-->Muestra el estado de todos los jugadores, con las cartas boca arriba.
+*conf==FALSE-->Muestra el estado de todos los jugadores, pero solo muestra las cartas boca arriba del jugador real y los robots tienen las cartas boca abajo. 
+*/
 void mostrar_estado_jugadores(tjugadores lj, int conf)
 {
 	int i=0, uno;

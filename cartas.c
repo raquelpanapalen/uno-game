@@ -10,7 +10,9 @@
 #include "partida.h"
 #include "preguntas.h"
 #include "colores.h"
-
+/*
+* Inicializa las 108 cartas en lc(lista de cartas) de manera como marcan las normas del uno.
+*/
 void inicializar_cartas(tcartas *lc)
 {
 	int pos, i, j, c;
@@ -45,6 +47,9 @@ void inicializar_cartas(tcartas *lc)
 		pos++;
 	}
 }
+/*
+*Mezcla las cartas aleatoriamente haciendo intercambios de las cartas en orden con otras escojidas al azar.
+*/
 void mezclar_cartas(tcartas *lc)
 {
 	int i, pos=0;
@@ -57,6 +62,10 @@ void mezclar_cartas(tcartas *lc)
 		lc->cartas[pos]=aux;
 	}
 }
+/*
+*si conf==1 Muestra lc(lista de cartas) en filas de 20 cartas y hace los saltos de línea automáticos cuando sobrepasa los 20.
+*si conf==0 Muestra |UNO| y a continuación el número de cartas que quedan en lc.
+*/
 void mostrar_mazo(tcartas lc, int conf)
 {
 	int i, j;
@@ -83,11 +92,14 @@ void mostrar_mazo(tcartas lc, int conf)
 	else
 	{
 		mostrar_carta(lc.cartas[lc.nc-1], FALSE);
-		printf("(%d)",lc.nc);
+		printf("|(%d)",lc.nc);
 	}
   printf("\n");
 }
-
+/*
+*Muestra la ultima carta del mazo de descartes y el sentido en el qual se realiza el paso de turno. 
+*Aparte de esto aparece el color que se ha escojido en el caso de que la ultima carta sea un W o W+4.
+*/
 void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 {
 	printf("Mazo Descartes:\n");
@@ -109,7 +121,10 @@ void mostrar_mazo_descartes(tcartas mazo, int sentido, int color)
 		printf("ANTIHORARIO\n");
 	default_attributes();
 }		
-
+/*
+*si conf==1-->Muestra la mano del jugador en filas de 20 cartas y hace los saltos de línea automáticos cuando sobrepasa los 20.
+*si conf==0-->Muestra la cantidad de cartas del jugador pero aparece |UNO| envez de la cartas.
+*/
 void mostrar_cartas(tcartas lc,int conf)
 {
 	int i, j;
@@ -132,6 +147,10 @@ void mostrar_cartas(tcartas lc,int conf)
   	printf("|");
 
 }
+/*
+*si hay suficientes cartas para robar en lc, mueve numcart cartas a la mano introducida.
+*si no hay suficiente cartas para robar en lc, primero mueve todas menos la ultima carta del mazo de descartes a lc(utilizando la función recuperar cartas) y a continuación mueve numcart de lc a mano.
+*/
 void robar_cartas(int numcart, tcartas *mano, tcartas *lc, tcartas *mazo)
 {
 	int i, j;
@@ -151,11 +170,13 @@ void robar_cartas(int numcart, tcartas *mano, tcartas *lc, tcartas *mazo)
 		}
 	}
 }
-
+/*
+*Inicializa la mano del jugador introducido con 7 cartas moviendolas de lc.
+*/
 void inicializar_mano(tcartas *mano, tcartas *lc)
 {
 	int i, j;
-        mano->nc=0;
+  mano->nc=0;
 	for (i=0; i<7; i++)
 	{
 		mano->cartas[mano->nc]=lc->cartas[i];
@@ -167,6 +188,9 @@ void inicializar_mano(tcartas *mano, tcartas *lc)
 		lc->nc--;
 	}
 }
+/*
+*Busca la primera carta de lc que no es especial y la mueve a la última posición del mazo de descartes.
+*/
 void inicializar_mazo_descartes(tcartas *mazo, tcartas *lc)
 {
 	int i=0, pos;
@@ -186,7 +210,10 @@ void inicializar_mazo_descartes(tcartas *mazo, tcartas *lc)
 	}
 	lc->nc=lc->nc-1;
 }	
-	
+/*
+*return TRUE si solo le queda una carta a la mano del jugador.
+*return FALSE si le queda mas de una carta a la mano del jugador.
+*/
 int ultima_carta(tcartas mano)
 {
 	int ultima=FALSE;
@@ -195,6 +222,9 @@ int ultima_carta(tcartas mano)
 		
 	return ultima;
 }
+/*
+*return posicion de la carta c en la mano del jugador.
+*/
 int buscar_carta(tcarta c, tcartas mano)
 {
 	int i=0, pos;
@@ -207,6 +237,9 @@ int buscar_carta(tcarta c, tcartas mano)
 	
 	return pos;
 }
+/*
+*Elimina la carta en la posicion pos de la mano del jugador introducido.
+*/
 void eliminar_cartas(int pos, tcartas *mano)
 {
 	int i;
@@ -216,13 +249,17 @@ void eliminar_cartas(int pos, tcartas *mano)
 	}
 	mano->nc=mano->nc-1;
 }
-void tirar_carta(tcarta c,tcartas *mazo)//pasar carta c de mano del jugador a mazo de descartes
+/*
+*Copiar la carta c en la última posición del mazo de descartes.
+*/
+void tirar_carta(tcarta c,tcartas *mazo)
 {
 	mazo->cartas[mazo->nc]=c;
 	mazo->nc+=1;
-	
 }
-
+/*
+*Pasar todas las cartas menos la ultima del mazo de descartes a lc.
+*/
 void recuperar_cartas(tcartas *mazo, tcartas *lc)
 {
 	int i,j;

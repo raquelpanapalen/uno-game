@@ -10,8 +10,12 @@
 #include "colores.h"
 #include "preguntas.h"
 #include "partida.h"
-
-
+/*
+*Calcula las posibles jugadas usando las funciones de jugada_posible: 
+->Con los parametros del color de la ultima carta o color escojido.
+->Con la carta um(ultima del mazo de descartes).
+ *Todo comparado con la mano del jugador introducido y guardado en el struct tjugadas pj(posibles jugadas).
+*/
 void calcular_jugadas_posibles(tjugadas *pj, int color,tcartas mano, tcarta um)
 {
   int i, posible, hay_col;
@@ -44,7 +48,10 @@ void calcular_jugadas_posibles(tjugadas *pj, int color,tcartas mano, tcarta um)
 		}
 	}
 }
-
+/*
+*return TRUE si encuntra una carta en la mano del jugador que tenga el color introducido.  
+*return FALSE si no se encuentra ninguna coincidencia de color. 
+*/
 int hay_color(int color, tcartas mano)
 {
 	int encontrado=FALSE, i=0;
@@ -57,7 +64,9 @@ int hay_color(int color, tcartas mano)
 	}
 	return encontrado;
 }	
-	
+/*
+*Muestra el vector de pj(posibles jugadas).
+*/	
 void mostrar_jugadas(tjugadas pj)
 {
 	int i; 
@@ -69,7 +78,10 @@ void mostrar_jugadas(tjugadas pj)
 	}
 	printf("   ");
 }
-
+/*
+*return TRUE si hay alguna jugada posible en la mano del jugador.
+*return FALSE si hay ninguna jugada posible en la mano del jugador.
+*/
 int hay_jugadas(tcartas mano, tcarta um, int color)
 {
 	int i=0, encontrada=FALSE;
@@ -81,7 +93,10 @@ int hay_jugadas(tcartas mano, tcarta um, int color)
 	}
 	return encontrada;
 }
-
+/*
+*tipo_jug==0(caso de la persona real)->return la carta escojida por el jugador entre las jugadas posibles.
+*tipo_jug!=0(caso del robot) -> return una carta aleatoria entre las jugadas posibles.
+*/
 tcarta elegir_jugada(int tipo_jug, tjugadas jugadas)
 {
 	int pos;
