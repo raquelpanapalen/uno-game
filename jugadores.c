@@ -11,7 +11,7 @@
 #include "preguntas.h"
 #include "colores.h"
 /*
-*Inicializa el jugador real y los robots pidiendo primero el nombre del jugador real y a continuación poniendo nombre a los robots según el ordén cronológico. 
+*Inicializa el jugador real y los robots pidiendo primero el nombre del jugador real y a continuación poniendo nombre a los robots según el orden numérico. 
 */
 void inicializar_jugadores(tjugadores *lj)
 {

@@ -59,7 +59,7 @@ void mostrar_turno(tpartida p)
 	default_attributes();
 }
 /*
-*Muestra **UNO** a continuación de la carta final del jugador que solo tiene una carta. 
+*Muestra **UNO** si el jugador solo tiene una carta. 
 */
 void mostrar_uno(tcartas mano)
 {
@@ -70,12 +70,12 @@ void mostrar_uno(tcartas mano)
 		cambiar_color_letra(GREEN);
 		printf(" ** UNO **");
 		default_attributes();
-		printf(" ");
+		printf("  ");
 	}
 }
 /*
-*Si hay jugadas(sin contar W+4) en la mano del jugador, las calculas y en el caso de la persona real le hace escojer una jugada mediante funciones definidas anteriormente.
-*Si no hay jugadas(sin contar W+4) en la mano del jugador:
+*Si hay jugadas(contando W+4, en el caso que no haya cartas del color de partida) en la mano del jugador, las calculas y escoge una jugada mediante funciones definidas anteriormente.
+*Si no hay jugadas(contando W+4, en el caso que no haya cartas del color de partida) en la mano del jugador:
 ->Comprueba si es el turno de la persona real para mostarla o no.
 ->Comprueba si la cara carta que roba puede ser tirada directamente(si es el caso se tira directamente, sino se añade a la mano y se pasa turno).
 *Una vez realizada la jugada se comprueba si es una carta especial y se realiza la acción especifica de la carta en cuestión.
@@ -100,7 +100,6 @@ void realizar_jugada(tpartida *p)
 		mostrar_carta_tirada(carta_a_tirar, p);
 		pos=buscar_carta(carta_a_tirar, p->lj.lista_jug[p->turno].mano);
 		eliminar_cartas(pos, &p->lj.lista_jug[p->turno].mano);
-		mostrar_uno(p->lj.lista_jug[p->turno].mano);
 		opciones(carta_a_tirar, p);
 	}
 	else
@@ -117,7 +116,6 @@ void realizar_jugada(tpartida *p)
 			mostrar_carta_tirada(p->lc.cartas[0], p);
 			carta_a_tirar=p->lc.cartas[0];
 			eliminar_cartas(0, &p->lc);
-			mostrar_uno(p->lj.lista_jug[p->turno].mano);
 			opciones(carta_a_tirar, p);	
 		}
 		else
@@ -149,6 +147,7 @@ void pasar_turno(int npos, tpartida *p)
 */
 void reverse(tpartida *p)
 {
+	mostrar_uno(p->lj.lista_jug[p->turno].mano);
 	p->sentido=p->sentido*-1;
 }
 /*
@@ -157,6 +156,7 @@ void reverse(tpartida *p)
 */
 void mas_dos(tpartida *p)
 {
+	mostrar_uno(p->lj.lista_jug[p->turno].mano);
 	pasar_turno(1, p);
 	robar_cartas(2, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
@@ -178,6 +178,7 @@ void mas_cuatro(tpartida *p)
 	printf("   ");
 	default_attributes();
 	printf("| ");
+	mostrar_uno(p->lj.lista_jug[p->turno].mano);
 	pasar_turno(1, p);
 	robar_cartas(4, &p->lj.lista_jug[p->turno].mano, &p->lc,&p->mazo);
 }
@@ -197,6 +198,7 @@ void wild(tpartida *p)
 	printf("   ");
 	default_attributes();
 	printf("| ");
+	mostrar_uno(p->lj.lista_jug[p->turno].mano);
 }
 /*
 *Se determina la acción de las cartas especiales.
@@ -204,13 +206,19 @@ void wild(tpartida *p)
 void opciones(tcarta c, tpartida *p)
 {
 	if(c.fig<10)
+	{
 		p->color=c.color;
+		mostrar_uno(p->lj.lista_jug[p->turno].mano);
+	}
 	else if(c.fig==10)
 		mas_dos(p);
 	else if(c.fig==11)
 	  reverse(p);
 	else if(c.fig==12)
+	{
+		mostrar_uno(p->lj.lista_jug[p->turno].mano);
 		pasar_turno(1,p);
+	}
 	else if(c.fig==13)
 		wild(p);
 	else
