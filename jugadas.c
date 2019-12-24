@@ -50,7 +50,7 @@ void calcular_jugadas_posibles(tjugadas *pj, int color,tcartas mano, tcarta um)
 }
 /*
 *return TRUE si encuntra una carta en la mano del jugador que tenga el color introducido.  
-*return FALSE si no se encuentra ninguna coincidencia de color. 
+*return FALSE si no se encuentra ninguna coincidencia de color 
 */
 int hay_color(int color, tcartas mano)
 {
@@ -80,7 +80,7 @@ void mostrar_jugadas(tjugadas pj)
 }
 /*
 *return TRUE si hay alguna jugada posible en la mano del jugador.
-*return FALSE si hay ninguna jugada posible en la mano del jugador.
+*return FALSE si no hay ninguna jugada posible en la mano del jugador.
 */
 int hay_jugadas(tcartas mano, tcarta um, int color)
 {

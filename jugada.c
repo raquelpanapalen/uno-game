@@ -29,7 +29,7 @@ int jugada_posible_scolor(tcarta c, tcarta um, int color)
 /*
 *return TRUE si:
 ->si la figura de la carta um(ultima mazo de descartes) coincide con la de la carta c, siempre que no sea un W+4. 
-->si la figura de la carta c es un W.
+->si la figura de la carta c es un W o un W+4.
 *return FALSE si no se cumple ningún requisito anterior. 
 */
 int jugada_posible_ncolor(tcarta c, tcarta um)
