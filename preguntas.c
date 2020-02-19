@@ -1,4 +1,4 @@
-// Este fichero se le da al alumno
+
 #include <stdio.h>
 #include "colores.h"
 #include "preguntas.h"
